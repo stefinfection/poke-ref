@@ -80,37 +80,37 @@ namespace PokeRef_v1
 
         }
 
-        private void fillID()
+        private void fillID(string result)
         {
             // parse string result using json dll
         }
 
-        private void fillHeight()
+        private void fillHeight(string result)
         {
 
         }
 
-        private void fillSpecies()
+        private void fillSpecies(string result)
         {
 
         }
 
-        private void fillCharacteristic()
+        private void fillCharacteristic(string result)
         {
 
         }
 
-        private void fillTypes()
+        private void fillTypes(string result)
         {
 
         }
 
-        private void fillMoves()
+        private void fillMoves(string result)
         {
 
         }
 
-        private void fillSprites()
+        private void fillSprites(string result)
         {
 
         }
