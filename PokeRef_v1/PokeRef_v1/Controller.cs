@@ -8,6 +8,7 @@ namespace PokeRef_v1
 {
     class Controller
     {
+        private Pokemon pokemon;        // The pokemon currently being queried
 
     }
 }

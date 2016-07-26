@@ -12,7 +12,7 @@ namespace PokeRef_v1
     /// Represents a pokemon. Uses HTTP protocols to retrieve information
     /// relative to the pokemon, from the REST service created by ...
     /// </summary>
-    class Pokemon
+    public class Pokemon
     {        
         private const string URL = "http://pokeapi.co/api/v2";  // The REST service base address
 
@@ -43,7 +43,9 @@ namespace PokeRef_v1
             evoChain = null;
         }
 
-        // Creates a connection to the REST service
+        /// <summary>
+        /// Creates a HTTPClient used to connect to the pokeapi REST service.
+        /// </summary>
         public HttpClient CreateClient()
         {
             // Create a client with the base address of the Boggle server
@@ -52,9 +54,81 @@ namespace PokeRef_v1
             return client;
         }
 
-        // Get pokemon
+        /// <summary>
+        /// Connects to the pokeapi REST service and retrieves the following criteria: 
+        /// ID, height, species, characteristic, types, moves, and sprites. Fills in 
+        /// the properties of this Pokemon.
+        /// </summary>
+        public void FillPokeStats()
+        {
+            // Open connection
 
-        // Get evolution
+            // Query for pokemon w/ name
 
+            // If status code successful, store result and pass to individual parsing methods
+            //String result = response.Content.ReadAsStringAsync().Result;
+
+            // Else display error message
+        }
+
+        /// <summary>
+        /// Connects to the pokeapi REST service and retrieves the evolution chain
+        /// of this Pokemon. Fills in the evoChain property.
+        /// </summary>
+        public void FillEvoStats()
+        {
+
+        }
+
+        private void fillID()
+        {
+            // parse string result using json dll
+        }
+
+        private void fillHeight()
+        {
+
+        }
+
+        private void fillSpecies()
+        {
+
+        }
+
+        private void fillCharacteristic()
+        {
+
+        }
+
+        private void fillTypes()
+        {
+
+        }
+
+        private void fillMoves()
+        {
+
+        }
+
+        private void fillSprites()
+        {
+
+        }
+
+        /// <summary>
+        /// Clears out this Pokemon's properties.
+        /// </summary>
+        public void clearPokemon()
+        {
+            name = null;
+            id = Int32.MinValue;
+            height = Int32.MinValue;
+            species = null;
+            characteristic = null;
+            types = null;
+            moves = null;
+            sprites = null;
+            evoChain = null;
+        }
     }
 }

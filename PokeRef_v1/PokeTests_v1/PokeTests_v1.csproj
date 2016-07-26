@@ -53,6 +53,12 @@
     <Compile Include="PokeUnitTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PokeRef_v1\PokeRef_v1.csproj">
+      <Project>{25194cb5-e08e-4c44-b652-ddab1bd623a3}</Project>
+      <Name>PokeRef_v1</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
