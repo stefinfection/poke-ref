@@ -22,10 +22,9 @@ namespace PokeRef_v1
         public string name { get; private set; }                // The name of the pokemon
         public int id { get; private set; }                     // The numeric identifier of this pokemon in the database
         public int height { get; private set; }                 // The height of the pokemon
-        public List<string> types { get; private set; }             // The types of damage this pokemon's attacks cause
-        //public string[] moves { get; private set; }             // The attacks this pokemon can perform
+        public List<string> types { get; private set; }         // The types of damage this pokemon's attacks cause
         public List<dynamic> sprites { get; private set; }      // Visual representation files for this pokemon
-        public List<string> evoChain { get; private set; }          // The forms this pokemon may evolve into, or evolve from
+        public List<string> evoChain { get; private set; }      // The forms this pokemon may evolve into, or evolve from
         
         /// <summary>
         /// Creates a new empty pokemon object.
@@ -53,8 +52,7 @@ namespace PokeRef_v1
 
         /// <summary>
         /// Connects to the pokeapi REST service and retrieves the following criteria: 
-        /// ID, height, species, characteristic, types, moves, and sprites. Fills in 
-        /// the properties of this Pokemon.
+        /// ID, height, types, and sprites. Fills in the corresponding properties of this Pokemon.
         /// </summary>
         public void FillPokeStats()
         {
@@ -74,8 +72,8 @@ namespace PokeRef_v1
                     fillID(pokeStats);
                     fillHeight(pokeStats);
                     fillTypes(pokeStats);
-
                 }
+
                 // Otherwise display failed request message
                 else
                 {
@@ -132,16 +130,25 @@ namespace PokeRef_v1
             }
         }
 
+        /// <summary>
+        /// Parses the deserialized JSON object for an id, and assigns the corresponding property.
+        /// </summary>
         private void fillID(dynamic pokeStats)
         {
             this.id = pokeStats.id;
         }
 
+        /// <summary>
+        /// Parses the deserialized JSON object for a height, and assigns the corresponding property.
+        /// </summary>
         private void fillHeight(dynamic pokeStats)
         {
             this.height = pokeStats.height;
         }
 
+        /// <summary>
+        /// Parses the deserialized JSON object for types, and adds them to the type list of this pokemon.
+        /// </summary>
         private void fillTypes(dynamic pokeStats)
         {
             // Extract the types dataset from the pokemon dataset
@@ -153,9 +160,12 @@ namespace PokeRef_v1
             }
         }
 
+        /// <summary>
+        /// Extracts PNG files themselves? Or just link to download?
+        /// </summary>
         private void fillSprites(dynamic pokeStats)
         {
-            // TB implemented
+            //TODO: implement
         }
 
         /// <summary>

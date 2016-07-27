@@ -25,7 +25,7 @@ namespace PokeTests_v1
         {
             Pokemon mon = new Pokemon("caterpie");
             mon.FillPokeStats();
-            mon.FillEvoStats();
+          //  mon.FillEvoStats();
             Assert.AreEqual(10, mon.id);
         }
 
@@ -37,21 +37,12 @@ namespace PokeTests_v1
         //}
 
         [TestMethod]
-        public void SpeciesPoke1()
-        {
-            throw new NotImplementedException();
-        }
-
-        [TestMethod]
-        public void CharacteristicPoke1()
-        {
-            throw new NotImplementedException();
-        }
-
-        [TestMethod]
         public void TypesPoke1()
         {
-            throw new NotImplementedException();
+            Pokemon mon = new Pokemon("caterpie");
+            mon.FillPokeStats();
+
+            Assert.AreEqual("bug", mon.types[0]);
         }
 
         [TestMethod]
