@@ -1,4 +1,5 @@
 ﻿// Copyright SJG 26Jul2016
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,8 +21,6 @@ namespace PokeRef_v1
         public string name { get; private set; }                // The name of the pokemon
         public int id { get; private set; }                     // The numeric identifier of this pokemon in the database
         public int height { get; private set; }                 // The height of the pokemon
-        public string species { get; private set; }             // The species to which this pokemon belongs
-        public string characteristic { get; private set; }      // An outstanding feature of this pokemon
         public string[] types { get; private set; }             // The types of damage this pokemon's attacks cause
         public string[] moves { get; private set; }             // The attacks this pokemon can perform
         public List<dynamic> sprites { get; private set; }      // Visual representation files for this pokemon
@@ -35,8 +34,6 @@ namespace PokeRef_v1
             this.name = name;
             id = Int32.MinValue;
             height = Int32.MinValue;
-            species = null;
-            characteristic = null;
             types = null;
             moves = null;
             sprites = null;
@@ -62,13 +59,29 @@ namespace PokeRef_v1
         public void FillPokeStats()
         {
             // Open connection
+            using (HttpClient client = CreateClient())
+            {
+                // Send GET request with name                
+                HttpResponseMessage response = client.GetAsync(URL + "/pokemon/" + name).Result;
 
-            // Query for pokemon w/ name
+                // Store result if successful and call parsing sub-methods
+                if (response.IsSuccessStatusCode)
+                {
+                    String result = response.Content.ReadAsStringAsync().Result;
+                    dynamic pokeStats = JsonConvert.DeserializeObject(result);
 
-            // If status code successful, store result and pass to individual parsing methods
-            //String result = response.Content.ReadAsStringAsync().Result;
+                    // Find appropriate properties of deserialized JSON object
+                    fillID(pokeStats);
+                    fillHeight(pokeStats);
+                    fillType(pokeStats);
 
-            // Else display error message
+                }
+                // Otherwise display failed request message
+                else
+                {
+                    // throw exception to controller?
+                }
+            }            
         }
 
         /// <summary>
@@ -77,40 +90,35 @@ namespace PokeRef_v1
         /// </summary>
         public void FillEvoStats()
         {
-
+            
         }
 
-        private void fillID(string result)
-        {
-            // parse string result using json dll
-        }
+        //private void fillMoves(dynamic pokeStats)
+        //{
+        //    // Open connection
+        //    using (HttpClient client = CreateClient())
+        //    {
+        //        // Send GET request with name                
+        //        HttpResponseMessage response = client.GetAsync(URL + "/move/" + id.ToString()).Result;
 
-        private void fillHeight(string result)
-        {
+        //        // Store result if successful and call parsing sub-methods
+        //        if (response.IsSuccessStatusCode)
+        //        {
+        //            String result = response.Content.ReadAsStringAsync().Result;
+        //            dynamic pokeStats = JsonConvert.DeserializeObject(result);
 
-        }
+        //            // Find appropriate property of deserialized JSON object
+        //            this.characteristic = pokeStats.descriptions.description;
+        //        }
+        //        // Otherwise display failed request message
+        //        else
+        //        {
+        //            // throw exception to controller?
+        //        }
+        //    }
+        //}
 
-        private void fillSpecies(string result)
-        {
-
-        }
-
-        private void fillCharacteristic(string result)
-        {
-
-        }
-
-        private void fillTypes(string result)
-        {
-
-        }
-
-        private void fillMoves(string result)
-        {
-
-        }
-
-        private void fillSprites(string result)
+        private void fillSprites(dynamic pokeStats)
         {
 
         }
