@@ -56,6 +56,15 @@ namespace PokeRef_v1
         /// </summary>
         public void FillPokeStats()
         {
+            // Check that name is not an empty string
+            if (name.Equals(""))
+            {
+                throw new ApplicationException("You did not enter a pokemon, please try again.");
+            }
+
+            // Ensure token is all lower case prior to sending GET request
+            name = name.ToLower();
+
             // Open connection
             using (HttpClient client = CreateClient())
             {
@@ -77,7 +86,7 @@ namespace PokeRef_v1
                 // Otherwise display failed request message
                 else
                 {
-                    throw new HttpRequestException("Retrieving poke-stats failed.");
+                    throw new ApplicationException("Retrieving poke-stats failed.");
                 }
             }            
         }
@@ -102,7 +111,7 @@ namespace PokeRef_v1
 
                     // Extract the evolution-chain ID and use for next request
                     string evoline = speciesStats.evolution_chain.url;
-                    Regex reg = new Regex(@"/(/d+)");
+                    Regex reg = new Regex("\\/(\\d+)");
                     Match regMatch = reg.Match(evoline);
                     int evoID;
                     Int32.TryParse(regMatch.ToString().Substring(1), out evoID);
@@ -115,17 +124,45 @@ namespace PokeRef_v1
                     {
                         result = response.Content.ReadAsStringAsync().Result;
                         dynamic evoStats = JsonConvert.DeserializeObject(result);
-                        //TODO: finish inner workings of extracting sub-forms
-                        evoChain.Add(evoStats.chain.species.name);
+
+                        // Retrieve chain level from return object
+                        dynamic level = evoStats.chain;
+                        // Loop through each possible independent form and add to list
+                        foreach (dynamic entry in level)
+                        {
+                            this.evoChain.Add(level.species.name.ToString());
+
+                            // Try to retrieve subforms until there aren't any more (assume no more than five per chain)
+                            //bool moreForms = true;
+                            //while (moreForms)
+                            //{
+                            //    try
+                            //    {
+                            //        level = evoStats.chain.evolves_to;
+                            //        evoChain.Add(level.species.name.ToString());
+                            //        level = evoStats.chain.evolves_to.evolves_to;
+                            //        evoChain.Add(level.species.name.ToString());
+                            //        level = evoStats.chain.evolves_to.evolves_to.evolves_to;
+                            //        evoChain.Add(level.species.name.ToString());
+                            //        level = evoStats.chain.evolves_to.evolves_to.evolves_to.evolves_to;
+                            //        evoChain.Add(level.species.name.ToString());
+                            //    }
+                            //    catch
+                            //    {
+                            //        moreForms = false;
+                            //    }
+                            //}
+                        }
                     }
                     else
                     {
-                        throw new HttpRequestException("Could not extract evolution chain.");
+                        throw new ApplicationException("Could not extract evolution chain.");
                     }
+
                 }
                 else
                 {
-                    throw new HttpRequestException("Could not extract evolution ID from pokemon-species request.");
+                    throw new ApplicationException("Could not extract evolution ID from pokemon-species request.");
                 }
             }
         }
