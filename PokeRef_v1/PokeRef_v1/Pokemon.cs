@@ -132,26 +132,20 @@ namespace PokeRef_v1
                         {
                             this.evoChain.Add(level.species.name.ToString());
 
-                            // Try to retrieve subforms until there aren't any more (assume no more than five per chain)
-                            //bool moreForms = true;
-                            //while (moreForms)
-                            //{
-                            //    try
-                            //    {
-                            //        level = evoStats.chain.evolves_to;
-                            //        evoChain.Add(level.species.name.ToString());
-                            //        level = evoStats.chain.evolves_to.evolves_to;
-                            //        evoChain.Add(level.species.name.ToString());
-                            //        level = evoStats.chain.evolves_to.evolves_to.evolves_to;
-                            //        evoChain.Add(level.species.name.ToString());
-                            //        level = evoStats.chain.evolves_to.evolves_to.evolves_to.evolves_to;
-                            //        evoChain.Add(level.species.name.ToString());
-                            //    }
-                            //    catch
-                            //    {
-                            //        moreForms = false;
-                            //    }
-                            //}
+                            //Try to retrieve subforms until there aren't any more (assume no more than five per chain)
+                            bool moreForms = true;
+                            while (moreForms)
+                            {
+                                try
+                                {
+                                    level = level.evolves_to;
+                                    evoChain.Add(level.species.name.ToString());
+                                }
+                                catch
+                                {
+                                    moreForms = false;
+                                }
+                            }
                         }
                     }
                     else
